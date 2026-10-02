@@ -2,6 +2,10 @@ services:
   auth-service:
     build:
       context: ./auth-service
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./auth-service/.env
 
   restaurant-service:
     build:
