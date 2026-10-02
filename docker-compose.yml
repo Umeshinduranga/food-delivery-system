@@ -1,0 +1,20 @@
+services:
+  auth-service:
+    build:
+      context: ./auth-service
+
+  restaurant-service:
+    build:
+      context: ./restaurant-service
+
+  order-service:
+    build:
+      context: ./order-service
+
+  delivery-service:
+    build:
+      context: ./delivery-service
+
+  customer-service:
+    build:
+      context: ./customer-service
