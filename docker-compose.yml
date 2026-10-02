@@ -10,6 +10,10 @@ services:
   restaurant-service:
     build:
       context: ./restaurant-service
+    ports:
+      - "5002:5002"
+    env_file:
+      - ./restaurant-service/.env
 
   order-service:
     build:
