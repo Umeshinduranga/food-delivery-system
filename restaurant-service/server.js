@@ -1,13 +1,28 @@
-const http = require('node:http');
+require('dotenv').config();
 
-const port = Number(process.env.PORT || 3000);
-const serviceName = process.env.SERVICE_NAME || 'restaurant-service';
+const express = require('express');
+const restaurantRoutes = require('./routes/restaurant.routes');
+const menuRoutes = require('./routes/menu.routes');
 
-const server = http.createServer((request, response) => {
-  response.setHeader('Content-Type', 'application/json');
-  response.end(JSON.stringify({ service: serviceName, status: 'ok' }));
+const app = express();
+const port = Number(process.env.PORT || 5002);
+
+app.use(express.json());
+app.get('/health', (request, response) => {
+  response.json({ service: 'restaurant-service', status: 'ok' });
+});
+app.use('/api/restaurants', restaurantRoutes);
+app.use('/api', menuRoutes);
+
+app.use((error, request, response, next) => {
+  if (error instanceof SyntaxError && error.status === 400 && 'body' in error) {
+    return response.status(400).json({ error: 'Request body must be valid JSON' });
+  }
+
+  console.error(error);
+  return response.status(500).json({ error: 'Internal server error' });
 });
 
-server.listen(port, () => {
-  console.log(`${serviceName} listening on port ${port}`);
+app.listen(port, () => {
+  console.log(`restaurant-service listening on port ${port}`);
 });
