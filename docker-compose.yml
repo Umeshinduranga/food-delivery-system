@@ -18,6 +18,10 @@ services:
   order-service:
     build:
       context: ./order-service
+    ports:
+      - "5003:5003"
+    env_file:
+      - ./order-service/.env
 
   delivery-service:
     build:
