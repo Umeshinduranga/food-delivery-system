@@ -2,35 +2,47 @@ services:
   auth-service:
     build:
       context: ./auth-service
+    container_name: food-auth-service
     ports:
       - "5001:5001"
-    env_file:
-      - ./auth-service/.env
+    environment:
+      PORT: 5001
+      JWT_SECRET: ${JWT_SECRET:-replace-this-development-secret}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1h}
 
   restaurant-service:
     build:
       context: ./restaurant-service
+    container_name: food-restaurant-service
     ports:
       - "5002:5002"
-    env_file:
-      - ./restaurant-service/.env
+    environment:
+      PORT: 5002
 
   order-service:
     build:
       context: ./order-service
+    container_name: food-order-service
+    ports:
+      - "5003:5003"
+    environment:
+      PORT: 5003
+      DELIVERY_FEE: 300
 
   delivery-service:
     build:
       context: ./delivery-service
+    container_name: food-delivery-service
     ports:
       - "5004:5004"
-    env_file:
-      - ./delivery-service/.env
+    environment:
+      PORT: 5004
 
   customer-service:
     build:
       context: ./customer-service
+    container_name: food-customer-service
     ports:
       - "5005:5005"
-    env_file:
-      - ./customer-service/.env
+    environment:
+      PORT: 5005
