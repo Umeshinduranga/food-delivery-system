@@ -30,3 +30,7 @@ services:
   customer-service:
     build:
       context: ./customer-service
+    ports:
+      - "5005:5005"
+    env_file:
+      - ./customer-service/.env
